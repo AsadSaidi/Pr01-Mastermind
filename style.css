@@ -57,7 +57,6 @@ main{
 }
 
 .bloqueado{
-    position: sticky;
     top:0;
     background-color: white;
     z-index: 100;
@@ -167,6 +166,10 @@ button{
 button:hover, button:focus{    
     background-color: #1aa1f075;    
     cursor: pointer;
+}
+
+#intento{
+    width: 100%;
 }
 
 
