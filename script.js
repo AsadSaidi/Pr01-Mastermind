@@ -5,13 +5,15 @@ const COLORS = ['white', 'blue', 'green', 'violet', 'yellow', 'red', 'orange', '
 const GREY = "grey";
 const WHITE = "white";
 const BLACK = "black";
-
+const intentos = ["Primer", "Segundo", "Tercer", "Cuarto", "Quinto", "Sexto", "Séptimo", "Octavo", "Noveno", "Décimo"];
+let numIntentos = 0
 
 //Declaración de variables globales.
 const master = [];
 let userCombi = [];
 var intento = 0;
 var aciertos = 0;
+let result = document.getElementById("Result");
 
 function init() {
     //1. Genera el código random del master
@@ -25,38 +27,37 @@ function init() {
 
 
 function crearIntentos(MAX_INTENTOS) {
-    let result = document.getElementById("Result");
     
-    
+    console.log(master)
     for (let i = 0; i < MAX_INTENTOS; i++) {
         const ROW_RESULT = `<div class="rowResult w100 flex wrap">
     <div class="rowUserCombi w75 flex wrap">
 
     <div class="w25">
-    <div id="fila${1 + 1}cuadrado1" class="celUserCombi flex"> </div>
+    <div id="cuadrado1" class="celUserCombi flex"> </div>
     </div>
     <div class="w25">
-    <div id="fila${1 + 1}cuadrado2" class="celUserCombi flex"></div>
+    <div id="cuadrado2" class="celUserCombi flex"></div>
     </div>
     <div class="w25">
-    <div id="fila${1 + 1}cuadrado3" class="celUserCombi flex"></div>
+    <div id="cuadrado3" class="celUserCombi flex"></div>
     </div>
     <div class="w25">
-    <div id="fila${1 + 1}cuadrado4" class="celUserCombi flex"></div>
+    <div id="cuadrado4" class="celUserCombi flex"></div>
    </div>
     </div>
     <div class="rowCercleResult w25 flex wrap center">
    <div class="w40 h40">
-        <div id="fila${1 + 1}circulo1" class="cercleResult flex"></div>
+        <div id="circulo1" class="cercleResult flex"></div>
    </div>
    <div class="w40 h40">
-       <div id="fila${1 + 1}circulo2" class="cercleResult flex"></div>
+       <div id="circulo2" class="cercleResult flex"></div>
    </div>
    <div class="w40 h40">
-       <div id="fila${1 + 1}circulo3" class="cercleResult flex"></div>
+       <div id="circulo3" class="cercleResult flex"></div>
    </div>
    <div class="w40 h40">
-       <div id="fila${1 + 1}circulo4" class="cercleResult flex"></div>
+       <div id="circulo4" class="cercleResult flex"></div>
    </div>
     <div>
     </div>`;
@@ -70,17 +71,47 @@ function crearIntentos(MAX_INTENTOS) {
 introducido el usuario.
 Informamos al usuario del resultado y del número de intentos que lleva*/
 function Comprobar() {
+    let circulos = [document.getElementById('circulo1'),document.getElementById('circulo2'), document.getElementById('circulo3'), document.getElementById('circulo4') ]
+    let cudrados = [document.getElementById('cuadrado1'),document.getElementById('cuadrado2'), document.getElementById('cuadrado3'), document.getElementById('cuadrado4')]
+    let celdasGanadoras = [document.getElementById('celdaGanadora1'),document.getElementById('celdaGanadora2'), document.getElementById('celdaGanadora3'), document.getElementById('celdaGanadora4')]
+    let info = document.getElementById('info')
+
+
     if(userCombi.length === 4){
         for(i = 0; i < 4; i++){
             if(master[i] === userCombi[i]){
-                result.push('black')
+                circulos[i].id = 'black'
             }else if(master.includes(userCombi[i])){
-                result.push('white')
+                circulos[i].id = 'white'
             }else{
-                result.push('gray')
+                circulos[i].id = 'grey'
             }
+            console.log(circulos[i])
         }
-        reiniciarUserCombi()
+
+        if(circulos[0].id === 'black' && circulos[1].id === 'black' && circulos[2].id === 'black' && circulos[3].id === 'black'){
+            for(i = 0; i < 4; i++){
+                celdasGanadoras[i].id = userCombi[i]
+                let seecionInfo = document.getElementById("seccionInfo")
+                seecionInfo.id = 'infoCorrecte'
+                info.textContent = "Felicidades, has acertado! :)"
+            }
+            
+        }else{
+            for(i = 0; i < 4; i++){
+                cudrados[i].id = userCombi[i]
+            }
+            numIntentos += 1
+            if(numIntentos < 10){
+                info.textContent = intentos[numIntentos] + " intento, suerte!"
+                reiniciarUserCombi()
+            }else{
+                alert("No tienes mas intentos, reincia la pagina para poder volver")
+            }
+            
+        }
+    }else{
+        alert("Has de seleccionar 4 colors")
     }
     
 }

@@ -61,6 +61,7 @@ main{
     background-color: white;
     z-index: 100;
 }
+
 #white{background-color: white; border: 1px solid black;}
 #blue{background-color: blue;}
 #green{background-color: green;}
@@ -69,8 +70,9 @@ main{
 #red{background-color: red;}
 #orange{background-color: orange;}
 #cyan{background-color: cyan;}
-
-.grey{background-color: #BABABA;}
+#black{background-color: black;}
+.green{background-color: green;}
+#grey{background-color: #BABABA;}
 
 /*  */
 .cel{
@@ -126,11 +128,20 @@ main{
 .comprobar *, .info *{
     margin: 10px;
 }
+
 .info{
     border-color: crimson;
     background-color: crimson;
     color: white;
 }
+
+.infoCorrecte{
+    border-color: green;
+    background-color: green;
+    color: white;
+}
+
+
 label{
     color: #1aa1f0;
     font-weight: bold;
