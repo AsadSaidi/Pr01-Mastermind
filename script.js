@@ -5,31 +5,34 @@ const COLORS = ['white', 'blue', 'green', 'violet', 'yellow', 'red', 'orange', '
 const GREY = "grey";
 const WHITE = "white";
 const BLACK = "black";
-const intentos = ["Primer", "Segundo", "Tercer", "Cuarto", "Quinto", "Sexto", "Séptimo", "Octavo", "Noveno", "Décimo"];
+const intentos = ["Primer", "Segundo", "Tercer", "Cuarto", "Quinto", "Sexto", "Séptimo", "Octavo", "Noveno", "Último"];
 let numIntentos = 0
 
 //Declaración de variables globales.
-const master = [];
-let userCombi = [];
+var master = [];
+var userCombi = [];
 var intento = 0;
 var aciertos = 0;
-let result = document.getElementById("Result");
+var result = document.getElementById("Result");
 
 function init() {
+    let listaNumeros = []
     //1. Genera el código random del master
-    for(let i = 0; i < 4; i++){
-       let posicionArray = Math.trunc((Math.random() * (7 - 0) + 0));
-       master[i] = COLORS[posicionArray]
+    while (master.length < 4) {
+        let posicionArray = Math.trunc((Math.random() * (7 - 0) + 0));
+        if (!listaNumeros.includes(posicionArray)) {
+            master.push(COLORS[posicionArray]); 
+            listaNumeros.push(posicionArray)
+        }
     }
+    console.log("MASTER: " + master)
     //2. Crea todas las filas según el número de intentos.
     crearIntentos(MAX_INTENTOS)
 }
 
 
 function crearIntentos(MAX_INTENTOS) {
-    
-    console.log(master)
-    for (let i = 0; i < MAX_INTENTOS; i++) {
+        for (let i = 0; i < MAX_INTENTOS; i++) {
         const ROW_RESULT = `<div class="rowResult w100 flex wrap">
     <div class="rowUserCombi w75 flex wrap">
 
@@ -70,10 +73,12 @@ function crearIntentos(MAX_INTENTOS) {
 /* Llamaremos a esta función desde el botón HTML de la página para comprobar la propuesta de combinación que nos ha
 introducido el usuario.
 Informamos al usuario del resultado y del número de intentos que lleva*/
+let celdasGanadoras = [document.getElementById('celdaGanadora1'),document.getElementById('celdaGanadora2'), document.getElementById('celdaGanadora3'), document.getElementById('celdaGanadora4')]
+
+
 function Comprobar() {
     let circulos = [document.getElementById('circulo1'),document.getElementById('circulo2'), document.getElementById('circulo3'), document.getElementById('circulo4') ]
     let cudrados = [document.getElementById('cuadrado1'),document.getElementById('cuadrado2'), document.getElementById('cuadrado3'), document.getElementById('cuadrado4')]
-    let celdasGanadoras = [document.getElementById('celdaGanadora1'),document.getElementById('celdaGanadora2'), document.getElementById('celdaGanadora3'), document.getElementById('celdaGanadora4')]
     let info = document.getElementById('info')
 
 
@@ -86,21 +91,23 @@ function Comprobar() {
             }else{
                 circulos[i].id = 'grey'
             }
-            console.log(circulos[i])
+            
         }
 
         if(circulos[0].id === 'black' && circulos[1].id === 'black' && circulos[2].id === 'black' && circulos[3].id === 'black'){
             for(i = 0; i < 4; i++){
                 celdasGanadoras[i].id = userCombi[i]
-                let seecionInfo = document.getElementById("seccionInfo")
-                seecionInfo.id = 'infoCorrecte'
-                info.textContent = "Felicidades, has acertado! :)"
             }
+
+            let seecionInfo = document.getElementById("seccionInfo")
+            seecionInfo.className = 'w100 infoCorrecte'
+            info.textContent = "Felicidades, has acertado! :)"
             
         }else{
             for(i = 0; i < 4; i++){
                 cudrados[i].id = userCombi[i]
             }
+
             numIntentos += 1
             if(numIntentos < 10){
                 info.textContent = intentos[numIntentos] + " intento, suerte!"
@@ -120,12 +127,7 @@ function Comprobar() {
 function añadeColor(color) {
     if(userCombi.length < 4){
         userCombi.push(color)
-
-        if(userCombi.length < 4){
-            document.getElementById("combiText").value += color + " - "
-        }else{
-            document.getElementById("combiText").value += color 
-        }
+        document.getElementById("combiText").value = userCombi.join(" - ")
     }else{
         alert("Solo puedes elegir 4 colores")
     }
@@ -172,3 +174,34 @@ function reiniciarUserCombi(){
     resultado = [];
     document.getElementById("combiText").value = "";
 }
+
+function reiniciarJuego() {
+    // Reiniciar variables globales
+    userCombi = [];
+    numIntentos = 0;
+    intento = 0;
+    aciertos = 0;
+    result.innerHTML = ""; // Limpiar las filas generadas anteriormente
+    master = []
+    crearIntentos(10)
+    document.getElementById("combiText").value = ""
+
+    for(i = 0; i < 4; i++){
+        celdasGanadoras[i].id = ""
+    }
+
+    init()
+
+    let seecionInfo = document.getElementById("seccionInfo")
+    seecionInfo.className = 'w100 info'
+    info.textContent = intentos[numIntentos] + " intento, suerte!"
+
+    listaNumeros = []
+}
+
+function borrar() {
+    if (userCombi.length > 0) {
+      userCombi.pop();
+      document.getElementById("combiText").value = userCombi.join(" - ")
+    }
+  }

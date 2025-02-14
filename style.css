@@ -28,6 +28,10 @@ main{
     width: 50%;    
 }
 
+.w75{
+    width: 75%;    
+}
+
 .h50{
     height: 50%;    
 }
@@ -139,13 +143,36 @@ main{
     border-color: green;
     background-color: green;
     color: white;
+    padding: 2px;
+    border-radius: 6px;
+    padding-left: 1px;
+    font-size: 1.2em;
+    margin-bottom: 15px;
 }
 
+#borrar{
+    background-color: rgb(120, 52, 248);
+}
+
+#info{
+    padding-left: 2px;
+}
+
+#reiniciar{
+    background-color: rgb(248, 79, 79);
+}
+
+.primerosDosBotones{
+    display: flex;
+    flex-direction: row;
+    width: 92.5%;
+}
 
 label{
     color: #1aa1f0;
     font-weight: bold;
 }
+
 input{
     box-sizing: border-box;
     width: 40%;    
@@ -171,12 +198,23 @@ button{
     border: none;
     border-radius: 5px;
     font-size: 1.17em;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
-button:hover, button:focus{    
-    background-color: #1aa1f075;    
-    cursor: pointer;
+#check:hover {
+    background-color: #1aa1f0ba;
+    transform: scale(1.02)
+}
+
+#borrar:hover {
+    background-color: rgba(121, 52, 248, 0.683);
+    transform: scale(1.02)
+}
+
+
+#reiniciar:hover {
+    background-color: rgba(248, 79, 79, 0.709);
+    transform: scale(1.05)
 }
 
 #intento{
